@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <unordered_set>
+#include <queue>
 
 using namespace std;
 
@@ -9,7 +10,7 @@ int main() {
     vector<vector<int>> grid(n, vector<int> (m));
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
-            cin >> grid[i][j]; // 0 <= grid[i][j] <= k - 1
+            cin >> grid[i][j]; // -1 <= grid[i][j] <= k - 1. -1 indicates empty cell
         }
     }
     vector<pair<vector<int>, char>> arrow_heads(k);
@@ -27,31 +28,31 @@ int main() {
         switch (dir) {
             case 'U':
                 for (int h = 1; i - h >= 0; h++) {
-                    if (grid[i - h][j] != l) { // some other arrow
+                    if (grid[i - h][j] != -1 && grid[i - h][j] != l) { // some other arrow
                         blocking_arrows.insert(grid[i - h][j]);
                     }
                 }
                 break;
             case 'D':
                 for (int h = 1; i + h < n; h++) {
-                        if (grid[i + h][j] != l) {
-                            blocking_arrows.insert(grid[i + h][j]);
-                        }
+                    if (grid[i + h][j] != -1 && grid[i + h][j] != l) {
+                        blocking_arrows.insert(grid[i + h][j]);
                     }
+                }
                 break;
             case 'L':
                 for (int h = 1; j - h >= 0; h++) {
-                        if (grid[i][j - h] != l) {
-                            blocking_arrows.insert(grid[i][j - h]);
-                        }
+                    if (grid[i][j - h] != -1 && grid[i][j - h] != l) {
+                        blocking_arrows.insert(grid[i][j - h]);
                     }
+                }
                 break;
             case 'R':
                 for (int h = 1; j + h < m; h++) {
-                        if (grid[i][j + h] != l) {
-                            blocking_arrows.insert(grid[i][j + h]);
-                        }
+                    if (grid[i][j + h] != -1 && grid[i][j + h] != l) {
+                        blocking_arrows.insert(grid[i][j + h]);
                     }
+                }
                 break;
         }
         for (auto b: blocking_arrows) {
